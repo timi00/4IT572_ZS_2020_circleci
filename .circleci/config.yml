@@ -8,9 +8,9 @@ jobs:
     <<: *vse
     steps:
       - checkout
-	  - run: npm install
-	  - run: npm run test
-	  - run: npm build
+      - run: npm install
+      - run: npm run test
+      - run: npm build
 workflows:
   version: 2.1
   build:
