@@ -5,6 +5,10 @@ jobs:
       - image: circleci/python:3.7.7
     steps:
       - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+           - .circleci
  
   deploy:
     docker:
@@ -17,7 +21,8 @@ jobs:
       - run: echo $SSH_PRIVATE_KEY | sed 's/<CRLF>/\n/g' > test.pem
       - run: chmod 400 test.pem
       - run: export ANSIBLE_HOST_KEY_CHECKING=False
-      - run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook ec2_deploy.yml --user ubuntu --key-file test.pem
+      - run: ls #debug
+      - run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook .circleci/ec2_deploy.yml --user ubuntu --key-file test.pem
 
 workflows:
   version: 2.1
