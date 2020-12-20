@@ -15,7 +15,7 @@ jobs:
       - run: pip install --user --upgrade pip
       - run: pip3 install --user ansible boto boto3
       - run: echo $SSH_PRIVATE_KEY | sed 's/<CRLF>/\n/g' > test.pem
-      - run: chmod 400 newkey2.pem
+      - run: chmod 400 test.pem
       - run: export ANSIBLE_HOST_KEY_CHECKING=False
       - run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook ec2_deploy.yml --user ubuntu --key-file test.pem
 
