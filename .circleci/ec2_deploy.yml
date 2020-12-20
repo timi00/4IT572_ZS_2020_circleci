@@ -8,7 +8,7 @@
         state: absent
         region: us-east-1
         filters:
-          instance-state-name: running
+          state: running
         aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY')}}"
         aws_secret_key: "{{lookup('env', 'AWS_SECRET_KEY')}}"
         security_token: "{{lookup('env', 'SECURITY_TOKEN')}}"
