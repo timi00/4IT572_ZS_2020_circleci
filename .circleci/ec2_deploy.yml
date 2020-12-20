@@ -14,9 +14,9 @@
         wait: yes
         count: 1
         group: eshop
-        aws_access_key: "ASIAQMKUKCBV3ASG7HXF"
-        aws_secret_key: "gipgHEUJwv2ggqaAvuO6b4YEQqh2hK8XoeuKgRw+"
-        security_token: "FwoGZXIvYXdzEN///////////wEaDEuzcnmhcn9KEUUfVCLDAchBcjP9FH0M3oXUzU2KXs0keQ+Z2CW5jSREtYkQMF1iInxJ/QrcgD7TgmSChleOTyx2wgTYmTwZSCtxNBiRGRbrBZYbw5dpqx/NRSrXL8YXUdXgExrBcF7ngh7/DSrf4+FoskyXmVwTqM3FNl7jJ09+UEzN7a3Vh7DQw4iDAEwIPpWFFGc24yiSYmbtBpPC+k6xUhbDJkwvA8lZVA1kbSzcqpj9jma1V20uyTOb3RSffzHjzlq9opCTGBMPS/z6e6+F8CjxoP3+BTItS6j1w2XrO8OppFhBrUkRXVv8Bje+CJLhzGmrP7em1GTPyDVHAOAdBZAZq8yP"
+        aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY')}}"
+        aws_secret_key: "{{lookup('env', 'AWS_SECRET_KEY')}}"
+        security_token: "{{lookup('env', 'SECURITY_TOKEN')}}"
       register: ec2
 
     - name: Add instance host to group
