@@ -4,11 +4,13 @@
 
   tasks:
     - name: Gathering current aws instance
-      ec2_instance_facts:
+      ec2_instance_info:
         region: us-east-1
         aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY')}}"
         aws_secret_key: "{{lookup('env', 'AWS_SECRET_KEY')}}"
         security_token: "{{lookup('env', 'SECURITY_TOKEN')}}"
+        #filters:
+        #  instance-state-name: [ "running" ]
       register: old_ec2
           
     - name: Launch EC2 instance
@@ -73,5 +75,11 @@
   tasks:
     - name: Terminate instances that were previously launched
       ec2:
+        aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY')}}"
+        aws_secret_key: "{{lookup('env', 'AWS_SECRET_KEY')}}"
+        security_token: "{{lookup('env', 'SECURITY_TOKEN')}}"
         state: 'absent'
-        instance_ids: '{{ old_ec2.instance_ids }}'
+        instance_ids: '{{ item.id }}'
+      loop: "{{ old_ec2.instances }}"
+      #when:
+      #  - item.state.name == "running"
