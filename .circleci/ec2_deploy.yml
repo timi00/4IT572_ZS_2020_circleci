@@ -4,14 +4,15 @@
 
   tasks:
     - name: Terminate all running aws instances 
-      community.aws.ec2_instance:
-          state: absent
-          region: us-east-1
-          filters:
-              instance-state-name: running
-          aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY')}}"
-          aws_secret_key: "{{lookup('env', 'AWS_SECRET_KEY')}}"
-          wait: yes
+      ec2:
+        state: absent
+        region: us-east-1
+        filters:
+          instance-state-name: running
+        aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY')}}"
+        aws_secret_key: "{{lookup('env', 'AWS_SECRET_KEY')}}"
+        security_token: "{{lookup('env', 'SECURITY_TOKEN')}}"
+        wait: yes
           
     - name: Launch EC2 instance
       ec2:
