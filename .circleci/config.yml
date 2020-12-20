@@ -21,7 +21,6 @@ jobs:
       - run: echo $SSH_PRIVATE_KEY | sed 's/<CRLF>/\n/g' > test.pem
       - run: chmod 400 test.pem
       - run: export ANSIBLE_HOST_KEY_CHECKING=False
-      - run: ls #debug
       - run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook .circleci/ec2_deploy.yml --user ubuntu --key-file test.pem
 
 workflows:
