@@ -5,9 +5,6 @@ jobs:
       - image: circleci/python:3.6.2
     steps:
       - checkout
-      - persist_to_workspace:
-          root: .
-          path: .
  
   deploy:
     docker:
