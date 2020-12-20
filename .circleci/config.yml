@@ -1,27 +1,30 @@
-vse: &vse
-  docker:
-    - image: circleci/node:8.11.3
-
 version: 2.1
 jobs:
   build:
-    <<: *vse
+    docker:
+      - image: circleci/node:8.11.3
     steps:
       - checkout
       - run: npm install
       - run: npm run test
       - run: npm run build
       - persist_to_workspace:
-         root: .
-         paths:
-            - .
+          root: .
+          paths:
+           - .circleci
+ 
   deploy:
-     <<: *vse
-     steps:
-        - attach_workspace:
-           at: .
-        - run:
-           command: ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
+    docker:
+      - image: circleci/python:3.7.7
+    steps:
+      - attach_workspace:
+          at: .
+      - run: pip install --user --upgrade pip
+      - run: pip3 install --user ansible boto boto3
+      - run: echo $SSH_PRIVATE_KEY | sed 's/<CRLF>/\n/g' > test.pem
+      - run: chmod 400 test.pem
+      - run: export ANSIBLE_HOST_KEY_CHECKING=False
+      - run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook .circleci/ec2_deploy.yml --user ubuntu --key-file test.pem
 
 workflows:
   version: 2.1
@@ -32,5 +35,5 @@ workflows:
          requires:
             - build
          filters:
-            branches:
-               only: master
+           branches:
+              only: master
