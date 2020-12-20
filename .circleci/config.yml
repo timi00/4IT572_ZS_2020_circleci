@@ -2,18 +2,18 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.2
+      - image: circleci/python:3.7.7
     steps:
       - checkout
  
   deploy:
     docker:
-      - image: circleci/python:3.6.2
+      - image: circleci/python:3.7.7
     steps:
       - attach_workspace:
           at: .
-      - run: pip install --upgrade pip
-      - run: pip3 install ansible boto boto3
+      - run: pip install --user --upgrade pip
+      - run: pip3 install --user ansible boto boto3
       - run: echo $SSH_PRIVATE_KEY | sed 's/<CRLF>/\n/g' > test.pem
       - run: chmod 400 newkey2.pem
       - run: export ANSIBLE_HOST_KEY_CHECKING=False
