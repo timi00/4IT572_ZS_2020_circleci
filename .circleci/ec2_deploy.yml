@@ -3,6 +3,18 @@
   connection: local
 
   tasks:
+    - name: Terminate aws instance (First found)
+      local_action:
+          module: ec2
+          region: us-east-1
+          aws_access_key: "{{lookup('env', 'AWS_ACCESS_KEY')}}"
+          aws_secret_key: "{{lookup('env', 'AWS_SECRET_KEY')}}"
+          state: 'absent'
+          instance_ids: "{{ hostvars[groups['launched'][0]]['instance_id'] }}"
+          wait: True
+      tags:
+          - terminateInstance
+          
     - name: Launch EC2 instance
       ec2:
         instance_type: t2.small
